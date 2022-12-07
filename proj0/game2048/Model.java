@@ -113,6 +113,11 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        board.setViewingPerspective(side);
+
+        int size = board.size();
+
+
 
         checkGameOver();
         if (changed) {
@@ -138,6 +143,15 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int col = 0; col < size; col += 1){
+            for (int row = 0; row < size; row += 1){
+                Tile t = b.tile(col, row);
+                if (t == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +162,17 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int col = 0; col < size; col += 1){
+            for (int row = 0; row < size; row += 1){
+                Tile t = b.tile(col, row);
+                if (t == null){
+                    continue;
+                }else if (t.value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -159,9 +184,35 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        int size = b.size();
+        for (int col = 0; col < size; col += 1) {
+            for (int row = 0; row < size; row += 1){
+                Tile t = b.tile(col, row);
+                if (t == null){
+                    return true;
+                }
+            }
+        }
+        for (int col = 0; col < size - 1; col += 1) {
+            for (int row = 0; row < size; row += 1) {
+                Tile t0 = b.tile(col, row);
+                Tile t1 = b.tile((col + 1), row);
+                if (t0.value() == t1.value()) {
+                    return true;
+                }
+            }
+        }
+        for (int col = 0; col < size; col += 1) {
+            for (int row = 0; row < size - 1; row += 1) {
+                Tile t0 = b.tile(col, row);
+                Tile t1 = b.tile(col, (row + 1));
+                if (t0.value() == t1.value()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
-
 
     @Override
      /** Returns the model as a string, used for debugging. */
