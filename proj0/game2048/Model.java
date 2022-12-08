@@ -114,10 +114,14 @@ public class Model extends Observable {
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
         board.setViewingPerspective(side);
-
         int size = board.size();
+        for (int i = 0; i < size; i += 1){
+            if (goUp(i, 3)){
+                changed = true;
+            }
+        }
 
-
+        board.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -125,6 +129,58 @@ public class Model extends Observable {
         }
         return changed;
     }
+
+    /** Method to move one tile up.
+     *  The parameter row goes from the bottom to the top.
+     *  The parameter column goes from the left to the right.
+     *  If tileUp is at the bottom row, return false.
+     *  If tileUp is not at the bottom row,
+     *      If tileDown is null and at the bottom row, return false.
+     *      If tileDown is null but not at the bottom row, move to the next row.
+     *          Now we will have a tileDown which is not null.
+     *          If tileUp is null, move tileDown up.
+     *          If tileUp is not null and tileUp.value() == tileDown(), move tileDown up and update score.
+     *          If tileUp is not null but tileUp.value() != tileDown(), move tileDown close to tileUp.
+     */
+    private boolean goUp(int col, int row){
+        int nextRow = row - 1;
+        Tile tileUp = board.tile(col, row);
+        Tile tileDown = board.tile(col, nextRow);
+
+        if (row == 0) {
+            return false;
+        }
+
+        if (tileDown == null){
+            if (nextRow == 0){
+                return false;
+            }else if (nextRow > 0){
+                nextRow -= 1;
+                tileDown = board.tile(col, nextRow);
+            }
+        }
+
+        if (tileDown != null){
+            if (tileUp == null){
+                board.move(col, row, tileDown);
+                goUp(col, row);
+                return true;
+            }else if (tileUp.value() == tileDown.value()){
+                board.move(col, row, tileDown);
+                score += board.tile(col, row).value();
+                goUp(col, (row - 1));
+                return true;
+            }else if(nextRow != row - 1){
+                board.move(col, (row - 1), tileDown);
+                goUp(col, (row - 1));
+                return true;
+            }else{
+                return goUp(col, (row - 1));
+            }
+        }
+        return false;
+    }
+
 
     /** Checks if the game is over and sets the gameOver variable
      *  appropriately.
