@@ -144,6 +144,7 @@ public class Model extends Observable {
      */
     private boolean goUp(int col, int row){
         int nextRow = row - 1;
+        int size = board.size();
         Tile tileUp = board.tile(col, row);
         Tile tileDown = board.tile(col, nextRow);
 
@@ -165,17 +166,22 @@ public class Model extends Observable {
                 board.move(col, row, tileDown);
                 goUp(col, row);
                 return true;
-            }else if (tileUp.value() == tileDown.value()){
-                board.move(col, row, tileDown);
-                score += board.tile(col, row).value();
-                goUp(col, (row - 1));
-                return true;
-            }else if(nextRow != row - 1){
-                board.move(col, (row - 1), tileDown);
-                goUp(col, (row - 1));
-                return true;
-            }else{
-                return goUp(col, (row - 1));
+            }else {
+                if (tileUp.value() == tileDown.value()) {
+                    board.move(col, row, tileDown);
+                    score += board.tile(col, row).value();
+                    goUp(col, (row - 1));
+                    return true;
+                }else if (row != size & nextRow != (row - 1)) {
+                    board.move(col, size, tileUp);
+                    board.move(col, (row - 1), tileDown);
+                    goUp(col, (row - 1));
+                    return true;
+                }else if (row == size & nextRow != (row - 1)) {
+                    board.move(col, (row - 1), tileDown);
+                    goUp(col, (row - 1));
+                    return true;
+                }
             }
         }
         return false;
