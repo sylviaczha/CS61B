@@ -1,6 +1,8 @@
 package deque;
 
-public class LinkedListDeque<Item>{
+import java.util.Iterator;
+
+public class LinkedListDeque<Item> implements Deque<Item>{
     public class IntNode{
         public Item item;
         public IntNode prev;
@@ -32,6 +34,7 @@ public class LinkedListDeque<Item>{
     }
 
     /*Add an item to the front of the list.*/
+    @Override
     public void addFirst(Item x){
         sentinel.next.prev = new IntNode(x, sentinel.next, sentinel);
         sentinel.next = sentinel.next.prev;
@@ -39,6 +42,7 @@ public class LinkedListDeque<Item>{
     }
 
     /*Add an item to the last of the list.*/
+    @Override
     public void addLast(Item x){
         sentinel.prev.next = new IntNode(x, sentinel, sentinel.prev);
         sentinel.prev = sentinel.prev.next;
@@ -46,17 +50,20 @@ public class LinkedListDeque<Item>{
     }
 
     /*Check if the deque is empty.*/
+    @Override
     public boolean isEmpty(){
-        if (sentinel.next == sentinel.prev){
+        if (sentinel.next == sentinel){ //or sentinel.prev == sentinel
             return true;
         }
         return false;
     }
 
+    @Override
     public int size(){
         return size;
     }
 
+    @Override
     public void printDeque(){
         IntNode p = sentinel;
         while (p.next != sentinel){
@@ -66,16 +73,31 @@ public class LinkedListDeque<Item>{
         System.out.println();
     }
 
-    public void removeFirst(){
+    @Override
+    public Item removeFirst(){
+        if (size == 0){
+            return null;
+        }
+        Item temp = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.next.prev = sentinel;
+        size -= 1;
+        return temp;
     }
 
-    public void removeLast(){
+    @Override
+    public Item removeLast(){
+        if (size == 0){
+            return null;
+        }
+        Item temp = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.prev.next = sentinel;
+        size -= 1;
+        return temp;
     }
 
+    @Override
     public Item get(int index){
         if (index > (size - 1)){
             return null;
@@ -102,6 +124,11 @@ public class LinkedListDeque<Item>{
         }
         IntNode p = sentinel;
         return getRecursiveHelp(p, index);
+    }
+
+    @Override
+    public Iterator<Item> iterator() {
+        return null;
     }
 
     public static void main(String[] args){
