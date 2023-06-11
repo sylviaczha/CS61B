@@ -3,6 +3,7 @@
 ## Red Black Tree
 
 https://www.happycoders.eu/algorithms/red-black-tree-java/ 
+
 https://www.bilibili.com/video/BV1BB4y1X7u3/?spm_id_from=333.788&vd_source=76eb554f71a53300228033f936490670 
 
 ### Red-Black Tree Properties
@@ -17,12 +18,12 @@ The following rules enforce the red-black tree balance:
 
 ### Red-Black Tree Insertion
 
-After inserting the element, we need to adjust the tree in order to maintain RBT properties.
-Case 1: new node is the root.
-Case 2: parent node is black.
-Case 3: parent node is red, parent node is the root.
-Case 4: parent node is red, uncle node is red.
-Case 5: parent node is red, uncle node is black, insert node is inner grandchild.
+After inserting the element, we need to adjust the tree in order to maintain RBT properties. <br /> 
+Case 1: new node is the root. <br /> 
+Case 2: parent node is black. <br /> 
+Case 3: parent node is red, parent node is the root. <br /> 
+Case 4: parent node is red, uncle node is red. <br /> 
+Case 5: parent node is red, uncle node is black, insert node is inner grandchild. <br /> 
 Case 6: parent node is red, uncle node is black, insert node is outer grandchild.
 
 ```Java
