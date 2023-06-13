@@ -2,10 +2,6 @@
 
 ## Red Black Tree
 
-https://www.happycoders.eu/algorithms/red-black-tree-java/ 
-
-https://www.bilibili.com/video/BV1BB4y1X7u3/?spm_id_from=333.788&vd_source=76eb554f71a53300228033f936490670 
-
 ### Red-Black Tree Properties
 
 The following rules enforce the red-black tree balance:
@@ -154,26 +150,20 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     private void rotateRight(Node node){
         Node parent    = node.parent;
         Node leftchild = node.left;
-
         node.left = leftchild.right;
         if (leftchild.right != null) leftchild.right.parent = node;
-        
         leftchild.right = node;
         node.parent = leftchild;
-
         replace(parent, node, leftchild)
     }
 
     private void rotateLeft(Node node){
         Node parent = node.parent;
         Node rightchild = node.right;
-
         node.right = rightchild.left;
         if (rightchild.left != null) rightchild.left.parent = node;
-
         rightchild.left = node;
         node.parent = rightchild;
-
         replace(parent, node, rightchild)
     }
 
@@ -182,8 +172,12 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         else if (parent.left  == oldChild) parent.left == newchild;
         else if (parent.right == oldChild) parent.right == newchild;
         else    throw new IllegalStateException("Node is not a child of its parent")
-
         if (newchild != null) newchild.parent = parent;
     }
 }
 ```
+
+
+https://www.happycoders.eu/algorithms/red-black-tree-java/ 
+
+https://www.bilibili.com/video/BV1BB4y1X7u3/?spm_id_from=333.788&vd_source=76eb554f71a53300228033f936490670 
